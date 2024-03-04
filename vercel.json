@@ -4,7 +4,7 @@
     "api/index.py": {
       "runtime": "my-runtime",
       "memory": 1024, 
-      "maxDuration": 600 
+      "maxDuration": 10
     }
   },
   "routes": [

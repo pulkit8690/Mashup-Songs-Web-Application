@@ -19,6 +19,8 @@ app.config['MAIL_PASSWORD'] = 'rkiq uskn hvsm wuok'  # Your Gmail password
 
 mail = Mail(app)
 
+temp_dir = tempfile.mkdtemp(prefix='my_app_')
+
 def download_videos(singer_name, num_videos):
     print(f"Downloading {num_videos} videos of {singer_name}...")
     try:
@@ -35,7 +37,6 @@ def download_videos(singer_name, num_videos):
         sys.exit(1)
 
 
-        
 def convert_to_audio(duration):
     print("Converting videos to audio...")
     try:
@@ -54,7 +55,6 @@ def convert_to_audio(duration):
         sys.exit(1)
 
 
-
 def merge_audios(output_file):
     print("Merging audio files...")
     try:
@@ -66,7 +66,7 @@ def merge_audios(output_file):
                 combined = sound
             else:
                 combined += sound
-        
+
         if combined:
             combined.export(output_file, format="mp3")
             print("Audio files merged successfully.")
@@ -77,11 +77,15 @@ def merge_audios(output_file):
         print("Error merging audio files:", str(e))
         sys.exit(1)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
+
 import traceback
+
+
 @app.route('/submit', methods=['POST'])
 def submit():
     try:
@@ -99,7 +103,7 @@ def submit():
         download_videos(singer_name, num_videos)
         convert_to_audio(audio_duration)
         merge_audios(output_file)
-        
+
         # Send email
         msg = Message('Mashup Output', sender='2003pulkit@gmail.com', recipients=[email])
         msg.body = 'Please find attached the output file.'
@@ -108,14 +112,14 @@ def submit():
 
         mail.send(msg)
 
-        shutil.rmtree("temp")
+        # Cleanup temporary directory
+        shutil.rmtree(temp_dir)
 
         return "Mashup completed successfully. Check your email for the output file."
     except Exception as e:
         # Log the error message along with the traceback
         traceback.print_exc()  # Print the traceback to console
         return "An error occurred: " + str(e)
-
+    
 if __name__ == "__main__":
     app.run(debug=True)
- 

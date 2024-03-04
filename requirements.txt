@@ -1,0 +1,6 @@
+Flask==2.2.5
+pytube==15.0.0
+moviepy==1.0.3
+pydub==0.25.1
+fast-youtube-search==0.0.8
+Flask-Mail==0.9.1

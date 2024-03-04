@@ -1,20 +1,25 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./index.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/index.py"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "./index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "functions": {
+    "your_function_name": {
+      "memory": 1024,  
+      "maxDuration": 600
+    }
+  },
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.py"
+    }
+  ]
+}
